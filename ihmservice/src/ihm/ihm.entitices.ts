@@ -33,7 +33,7 @@ export class Admin{
 }
 
 @Entity()
-export class Post{
+export class post{
     @PrimaryGeneratedColumn()
     post_id: number;
 
@@ -55,6 +55,9 @@ export class Post{
 export class Comment{
     @PrimaryGeneratedColumn()
     comment_id: number;
+    
+    @Column()
+    comment_name: string;
 
     @Column()
     date: Date;
@@ -62,8 +65,8 @@ export class Comment{
     @ManyToOne(() => User, user => user.comment)
     users: User[];
 
-    @ManyToOne(() => Post,(post) => post.comments)
-    posts: Post[];
+    @ManyToOne(() => post,(post) => post.comments)
+    posts: post[];
 }
 
 
@@ -97,8 +100,8 @@ export class User {
     @ManyToMany(() => Notification, notification => notification.users)
     notifications: Notification[];
 
-    @OneToMany(() => Post,(post) => post.users)
-    posts: Post[];
+    @OneToMany(() => post,(post) => post.users)
+    posts: post[];
 
     @OneToMany(() => Comment, (comment) => comment.users)
     comment: Comment[];

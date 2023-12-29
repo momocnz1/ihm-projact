@@ -8,15 +8,85 @@ GET {{baseUrl}}/
 ###
 GET {{baseUrl}}/status HTTP/1.1
 ###
+
 POST {{baseUrl}}/User
 Content-Type: application/json
+
 {
-    "fname": "John",
-    "lname": "Doe",
-    "email": "john.doe@example.com",
-    "phone": 1234567890,
+    "fname": "yungi",
+    "lname": "min",
+    "email": "min.yunggi@example.com",
+    "phone": 1235323456,
     "address": "123 Main St, Cityville"
 }
+###
 
+PUT {{baseUrl}}/user/2
+Content-Type: application/json
+
+{
+    "user_id" : 2,
+    "fname": "hoseok",
+    "lname": "Jung",
+    "email": "jung.hoseok@example.com",
+    "phone": 1232748272,
+    "address": "123 Main St, Cityville"
+
+}
+###
+
+DELETE {{baseUrl}}/user/7
+
+###
+GET {{baseUrl}}/admin
+###
+POST {{baseUrl}}/admin
+Content-Type: application/json
+
+{
+    "admin_id": 1
+}
+###
+PUT {{baseUrl}}/admin/1
+Content-Type: application/json
+
+{
+    "admin_id": 2
+}
+###
+DELETE {{baseUrl}}/admin/1
+###
+GET {{baseUrl}}/post
+###
+POST {{baseUrl}}/post
+Content-Type: application/json
+
+{
+    "post_name": "อคคตสึ ยูตะหร่อมาก"
+}
+###
+PUT {{baseUrl}}/post/3
+Content-Type: application/json
+
+{
+    "post_name": "อคคตสึ ยูตะหร่อมากค่ะ"
+}
+###
+DELETE {{baseUrl}}/post/1
+###
+GET {{baseUrl}}/comment
+###
+POST {{baseUrl}}/comment
+Content-Type: application/json
+
+{
+    "comment_name":"อคคตสึ ยูตะหร่อมาก"
+}
+###
+PUT {{baseUrl}}/comment/2
+Content-Type: application/json
+{
+    "comment_name":"อคคตสึ ยูตะหร่อมากค่ะ"
+}
 ###
 
