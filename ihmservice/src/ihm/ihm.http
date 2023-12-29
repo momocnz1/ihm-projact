@@ -1,0 +1,22 @@
+@hostname = 127.0.0.1
+@port = 8000
+@serviceUrl = http://{{hostname}}:{{port}}
+@baseUrl = http://{{hostname}}:{{port}}
+###
+GET {{baseUrl}}/
+
+###
+GET {{baseUrl}}/status HTTP/1.1
+###
+POST {{baseUrl}}/User
+Content-Type: application/json
+{
+    "fname": "John",
+    "lname": "Doe",
+    "email": "john.doe@example.com",
+    "phone": 1234567890,
+    "address": "123 Main St, Cityville"
+}
+
+###
+
