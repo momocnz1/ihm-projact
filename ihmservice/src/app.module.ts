@@ -3,7 +3,7 @@ import { UserController,AdminController, PostController,CommentController,Notifi
 import { AppService } from './app.service';
 import { UserService,AdminService,PostService,CommentService,NotificationService } from './ihm/ihm.service';
 import { TypeOrmModule} from '@nestjs/typeorm';
-import {User,Admin,Notification,post,Comment} from './ihm/ihm.entitices'
+import {User,Admin,Notification,post,} from './ihm/ihm.entitices'
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -15,10 +15,10 @@ import { ConfigModule } from '@nestjs/config';
       port: 3306,
       username: 'root',
       database: 'ihm',
-      entities: [User,Admin,Notification,post,Comment],
+      entities: [User,Admin,Notification,post],
       synchronize: true
     }),
-    TypeOrmModule.forFeature([User,Admin,Notification,post,Comment])
+    TypeOrmModule.forFeature([User,Admin,Notification,post])
   ],
   controllers: [UserController,AdminController,PostController,CommentController,NotificationController],
   providers: [AppService,UserService,AdminService,PostService,CommentService,NotificationService],

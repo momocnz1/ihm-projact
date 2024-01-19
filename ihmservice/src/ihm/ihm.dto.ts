@@ -58,19 +58,22 @@ export class CreateadminDTO{
     @IsNumber()
     admin_id: number;
 }
-export class UpdateadminDTO{
-    @IsNotEmpty()
-    @IsNumber()
-    admin_id: number;
-}
 export class CreatepostDTO{
     @IsNotEmpty()
     @IsNumber()
     post_id: number;
 
     @IsNotEmpty()
+    @IsNumber()
+    comment_id: number;
+
+    @IsNotEmpty()
     @IsString()
-    post_name: string;
+    title: string;
+
+    @IsNotEmpty()
+    @IsString()
+    content: string;
     
     @Type(()=>Date)
     @IsDate()
@@ -82,41 +85,20 @@ export class UpdatepostDTO{
     post_id: number;
 
     @IsNotEmpty()
-    @IsString()
-    post_name: string;
-    
-    @Type(()=>Date)
-    @IsDate()
-    date: Date;
-}
-export class CreatecommentDTO{
-    @IsNotEmpty()
-    @IsNumber()
-    comment_id: number;
-
-    @Type(()=>Date)
-    @IsDate()
-    date: Date;
-    
-    @IsNotEmpty()
-    @IsString()
-    comment_name: string;
-    
-}
-export class UpdatecommentDTO{
-    @IsNotEmpty()
     @IsNumber()
     comment_id: number;
 
     @IsNotEmpty()
+    @IsString()
+    title: string;
+
+    @IsNotEmpty()
+    @IsString()
+    content: string;
+    
     @Type(()=>Date)
     @IsDate()
     date: Date;
-    
-    @IsNotEmpty()
-    @IsString()
-    comment_name: string;
-    
 }
 export class UpdatenotificationDTO{
     @IsNotEmpty()
@@ -125,7 +107,15 @@ export class UpdatenotificationDTO{
 
     @IsNotEmpty()
     @IsString()
-    message: string;
+    title: string;
+
+    @IsNotEmpty()
+    @IsString()
+    content: string;
+    
+    @Type(()=>Date)
+    @IsDate()
+    date: Date;
 }
 export class CreateNotificationDTO{
     @IsNotEmpty()
@@ -134,7 +124,15 @@ export class CreateNotificationDTO{
 
     @IsNotEmpty()
     @IsString()
-    message: string;
+    title: string;
+
+    @IsNotEmpty()
+    @IsString()
+    content: string;
+    
+    @Type(()=>Date)
+    @IsDate()
+    date: Date;
 
     @IsNotEmpty()
     @IsNumber()

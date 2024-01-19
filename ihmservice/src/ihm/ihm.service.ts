@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {User,Admin,Notification,post,Comment} from './ihm.entitices'
-import { CreateuserDTO,UpdateuserDTO,CreateadminDTO, UpdateadminDTO, CreatepostDTO, UpdatepostDTO,UpdatecommentDTO,CreatecommentDTO,UpdatenotificationDTO } from './ihm.dto';
+import {User,Admin,Notification,post} from './ihm.entitices'
+import { CreateuserDTO,UpdateuserDTO,CreateadminDTO, CreatepostDTO, UpdatepostDTO,UpdatenotificationDTO } from './ihm.dto';
 import { plainToClass } from 'class-transformer';
 
 
@@ -59,19 +59,6 @@ export class AdminService{
   creat(admin : CreateadminDTO) : Promise<Admin | null>{
     return this.adminRepository.save(admin);
   }
-  async updateAdmin(admin_id: number, updateAdminDTO: UpdateadminDTO): Promise<string> {
-    const adminToUpdate = await this.adminRepository.findOne({ where: { admin_id: admin_id } });
-
-    if (!adminToUpdate) {
-      throw new NotFoundException('Admin not found');
-    }
-    await this.adminRepository.save({
-      ...adminToUpdate,
-      admin_id: updateAdminDTO.admin_id,
-    });
-
-    return 'Admin updated successfully';
-  }
   async deleteQuryBuilder(admin_id: number): Promise<void> {
     const adminToDelete = await this.adminRepository.findOne({ where: { admin_id: admin_id } });
   
@@ -119,7 +106,7 @@ export class PostService{
       throw new NotFoundException('Post not found');
     }
   
-    postToUpdate.post_name = update.post_name;
+    postToUpdate.title = update.title;
   
     return await this.postRepository.save(postToUpdate);
   }
@@ -132,33 +119,33 @@ export class PostService{
 @Injectable()
 export class CommentService{
   constructor(
-    @InjectRepository(Comment)
-    private commentRepository : Repository<Comment>
+    @InjectRepository(post)
+    private commentRepository : Repository<post>
   ){}
   getstatus() : string{
     return "OK";
   }
-  findAll() : Promise<Comment[]>{
+  findAll() : Promise<post[]>{
     return this.commentRepository.find();
   }
-  findOne(comment_id : number) : Promise<Comment | null>{
+  findOne(comment_id : number) : Promise<post | null>{
     return this.commentRepository.findOneBy({comment_id:comment_id});
   }
-  async create(commentDto: CreatecommentDTO): Promise<Comment | null> {
-    const commentEntity = plainToClass(Comment, commentDto);
+  async create(commentDto: CreatepostDTO): Promise<post | null> {
+    const commentEntity = plainToClass(post, commentDto);
 
     commentEntity.date = new Date();
 
     return this.commentRepository.save(commentEntity);
   }
-  async update(comment_id: number, update: UpdatecommentDTO): Promise<Comment | null> {
+  async update(comment_id: number, update: UpdatepostDTO): Promise<post | null> {
     const commentToUpdate = await this.commentRepository.findOne({ where: { comment_id: comment_id } });
   
     if (!commentToUpdate) {
       throw new NotFoundException('Comment not found');
     }
     commentToUpdate.date = update.date;
-    commentToUpdate.comment_name = update.comment_name;
+    commentToUpdate.content = update.content;
     
     return await this.commentRepository.save(commentToUpdate);
   }
@@ -190,21 +177,21 @@ export class NotificationService {
     if (!notificationToUpdate) {
       throw new NotFoundException('Notification not found');
     }
-    notificationToUpdate.message = update.message;
+    notificationToUpdate.content = update.content;
     return this.notificationRepository.save(notificationToUpdate);
   }
   
   async DeleteQuryBuilder(noti_id: number) : Promise<void>{
     await this.notificationRepository.delete({noti_id:noti_id})
   }
-  async createNotification(message: string, user_id: number, admin_id: number) {
+  async createNotification(mass: string, user_id: number, admin_id: number) {
     const notification = this.notificationRepository.create({
-      message: 'notification 1',
+      content:  mass,
       users: [{ user_id }],
       admins: [{ admin_id }],
     });
 
     await this.notificationRepository.save(notification);
-    return notification;
+    return notification; 
 }
 }

@@ -83,10 +83,36 @@ Content-Type: application/json
     "comment_name":"อคคตสึ ยูตะหร่อมาก"
 }
 ###
+
 PUT {{baseUrl}}/comment/2
 Content-Type: application/json
+
 {
-    "comment_name":"อคคตสึ ยูตะหร่อมากค่ะ"
+    "comment_name":"อคคตสึ ยูตะหร่อมากมาย"
+
 }
 ###
+DELETE {{baseUrl}}/comment/3
+###
+GET {{baseUrl}}/noti
+###
+POST {{baseUrl}}/noti
+Content-Type: application/json
+
+{
+    "message":"อคคตสึ ยูตะหร่อมาก",
+    "user_id" : 2,
+    "admin_id": 2
+    
+}
+###
+
+PUT {{baseUrl}}/noti/2
+Content-Type: application/json
+
+{
+    "message":"อคคตสึ ยูตะหร่อมาก"
+}
+###
+DELETE {{baseUrl}}/comment/3
 

@@ -6,30 +6,34 @@ export class Notification{
     noti_id: number;
 
     @Column()
-    message: string;
+    title: string;
 
-    @ManyToMany(() => User, user => user.notifications)
-    users: User[];
+    @Column()
+    content: string;
 
-    @ManyToMany(() => Admin, admin => admin.notifications)
-    admins: Admin[];
+    @Column()
+    date: Date;
+
+    @ManyToOne(() => User,(user) => user.notifications)
+    users:User
+
+    @ManyToOne(() => post,(post) => post.notifications)
+    posts: post
+
+    @ManyToOne(() => Admin,(admin) => admin.notifications)
+    admins: Admin
 }
 
 @Entity()
 export class Admin{
     @PrimaryGeneratedColumn()
     admin_id: number;
-
-    @OneToMany(() => User,(user) => user.checkedByAdmin)
-    checkedUsers: User[];
     
-    @ManyToMany(() => User, user => user.notifyingAdmins )
-    @JoinTable()
-    notifiedUsers: User[];
-    
-    @ManyToMany(() => Notification, notification => notification.admins)
-    @JoinTable()
+    @OneToMany(() => Notification, notification => notification.admins)
     notifications:Notification;
+
+    @OneToMany(() => post,(post) => post.admins)
+    posts: post
 }
 
 @Entity()
@@ -38,38 +42,30 @@ export class post{
     post_id: number;
 
     @Column()
-    post_name: string;
+    comment_id : number; 
 
     @Column()
-    date: Date;
-
-    @ManyToOne(() => User,(user) => user.posts)
-    users: User[];
-
-    @OneToMany(() => Comment, (comment) => comment.posts)
-    comments: Comment[];
-}
-
-
-@Entity()
-export class Comment{
-    @PrimaryGeneratedColumn()
-    comment_id: number;
+    title: string;
     
     @Column()
-    comment_name: string;
+    content: string;
 
     @Column()
     date: Date;
 
-    @ManyToOne(() => User, user => user.comment)
-    users: User[];
+    @ManyToOne(() => User,(user) => user.userPosts)
+    postUsers: User
 
-    @ManyToOne(() => post,(post) => post.comments)
-    posts: post[];
+    @ManyToOne(() => User,(user) => user.userComments)
+    commentUsers: User
+
+    @OneToMany(() => Notification,(notification)  => notification.posts)
+    notifications: Notification
+
+    @ManyToOne(() => Admin,(admin) => admin.posts)
+    admins: Admin
+    
 }
-
-
 
 @Entity()
 export class User {
@@ -91,18 +87,12 @@ export class User {
     @Column()
     address: string;
 
-    @ManyToOne(() => Admin,(admin) => admin.checkedUsers)
-    checkedByAdmin: Admin;
-    
-    @ManyToMany(() => Admin, admin => admin.notifiedUsers)
-    notifyingAdmins: Admin[];
-    
-    @ManyToMany(() => Notification, notification => notification.users)
-    notifications: Notification[];
+    @OneToMany(() => post,(post) => post.postUsers)
+    userPosts: post
 
-    @OneToMany(() => post,(post) => post.users)
-    posts: post[];
+    @OneToMany(() => post,(post) => post.commentUsers)
+    userComments: post
 
-    @OneToMany(() => Comment, (comment) => comment.users)
-    comment: Comment[];
+    @OneToMany(() => Notification,(notification) => notification.users)
+    notifications :Notification
 }

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { UserService,AdminService, PostService, NotificationService, CommentService } from './ihm.service';
-import { User,Admin, post,Comment,Notification } from './ihm.entitices';
-import { CreateNotificationDTO, CreateadminDTO, CreatecommentDTO, CreatepostDTO, CreateuserDTO, UpdateadminDTO, UpdatecommentDTO, UpdatenotificationDTO, UpdatepostDTO, UpdateuserDTO } from './ihm.dto';
+import { User,Admin, post,Notification } from './ihm.entitices';
+import { CreateNotificationDTO, CreateadminDTO, CreatepostDTO, CreateuserDTO, UpdatenotificationDTO, UpdatepostDTO, UpdateuserDTO } from './ihm.dto';
 
 
 @Controller('user')
@@ -52,10 +52,6 @@ export class AdminController{
   @Get(':admin_id')
     getByid(@Param('admin_id') admin_id : number) : Promise<Admin>{
         return this.adminService.findOne(admin_id)
-    }
-    @Put(':admin_id')
-    updateAdmin(@Param('admin_id') admin_id: number, @Body() updateAdminDTO: UpdateadminDTO): Promise<string> {
-      return this.adminService.updateAdmin(admin_id, updateAdminDTO);
     }
   @Post()
   postCreat(@Body() createadminDTO : CreateadminDTO): Promise<Admin>{
@@ -123,7 +119,7 @@ export class NotificationController {
   @Post('create')
   createNotification(@Body() createNotificationDTO: CreateNotificationDTO) {
     return this.notificationService.createNotification(
-      createNotificationDTO.message,
+      createNotificationDTO.content,
       createNotificationDTO.user_id,
       createNotificationDTO.admin_id,
     );
@@ -144,20 +140,20 @@ export class CommentController {
     return this.commentService.getstatus();
   }
   @Get()
-  getIndex(@Req() request : Request): Promise<Comment[]> {
+  getIndex(@Req() request : Request): Promise<post[]> {
     return this.commentService.findAll();
   }
   @Get(':comment_id')
-    getByid(@Param('comment_id') comment_id : number) : Promise<Comment>{
+    getByid(@Param('comment_id') comment_id : number) : Promise<post>{
         return this.commentService.findOne(comment_id)
     }
   @Put(":comment_id")
-    updateUserById(@Param('comment_id') comment_id: number, @Body() updatecommentDTO: UpdatecommentDTO): Promise<Comment> {
+    updateUserById(@Param('comment_id') comment_id: number, @Body() updatecommentDTO: UpdatepostDTO): Promise<post> {
       return this.commentService.update(comment_id, updatecommentDTO);
   }
     
   @Post()
-  postCreat(@Body() createcommentDTO : CreatecommentDTO): Promise<Comment>{
+  postCreat(@Body() createcommentDTO : CreatepostDTO): Promise<post>{
     return this.commentService.create(createcommentDTO)
   }
   @Delete(":comment_id")
