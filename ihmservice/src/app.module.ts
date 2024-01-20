@@ -1,26 +1,31 @@
 import { Module } from '@nestjs/common';
-import { UserController,AdminController, PostController,CommentController,NotificationController } from './ihm/ihm.controller';
 import { AppService } from './app.service';
-import { UserService,AdminService,PostService,CommentService,NotificationService } from './ihm/ihm.service';
+// import { UserService,AdminService,PostService,CommentService,NotificationService } from './ihm/ihm.service';
 import { TypeOrmModule} from '@nestjs/typeorm';
-import {User,Admin,Notification,post,} from './ihm/ihm.entitices'
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import PostNotification from './ihm/entities/postNotification';
+import User from './ihm/entities/user';
+import Admin from './ihm/entities/admin';
+import Post from './ihm/entities/post';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      database: 'ihm',
-      entities: [User,Admin,Notification,post],
-      synchronize: true
+  imports: [ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports :[ConfigModule],
+      useFactory:(configService : ConfigService) =>{
+        let option : TypeOrmModule = {
+          type : "sqlite" ,
+          database : configService.get<string>("DATABASE_NAME", 'ihm.db'),
+          entities: [User,Admin,PostNotification,Post],
+          synchronize: true
+        }
+        return option;
+      },
+     inject : [ConfigService]
     }),
-    TypeOrmModule.forFeature([User,Admin,Notification,post])
+    TypeOrmModule.forFeature([User,Admin,PostNotification,Post])
   ],
-  controllers: [UserController,AdminController,PostController,CommentController,NotificationController],
-  providers: [AppService,UserService,AdminService,PostService,CommentService,NotificationService],
+  controllers: [],
+  providers: [AppService],
 })
 export class AppModule {}
